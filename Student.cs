@@ -2,18 +2,87 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace StudentRegistration_Homework
 {
-    
+
     internal class Student
     {
 
-    
+        private static int nextId = 1;
+        private int Age;
+        private int Id;
+        private string Name;
+        private int Grade;
+        private double AverageScore;
+        private decimal Fee;
+        private bool HasScholarship;
+        private char ClassLetter;
+        private DateTime BirthDate;
 
-    static T ReadValue<T>(
+
+        static void Main()
+        {
+
+
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+            Console.WriteLine("=== ВЪВЕЖДАНЕ НА ДАННИ ЗА УЧЕНИК ===");
+            Console.WriteLine();
+
+            int id = nextId++;
+            string name = ReadValue("Име: ", s => s);
+
+            Student student = new Student(id, name);
+
+            student.Age = ReadValue(
+                    "Възраст: ", int.Parse);
+
+            student.Grade = ReadValue(
+                    "Клас: ", int.Parse);
+
+            student.AverageScore = ReadValue(
+                    "Среден успех: ", ParseDouble);
+
+            student.Fee = ReadValue(
+                    "Такса (лв.): ", ParseDecimal);
+
+            student.HasScholarship = ReadValue(
+                    "Получава ли стипендия? (да/не): ",
+                ParseBool);
+
+            student.ClassLetter = ReadValue(
+                    "Паралелка: ", ParseChar);
+
+            student.BirthDate = ReadValue(
+                    "Дата на раждане (дд.ММ.гггг): ",
+                ParseDate);
+
+            Console.WriteLine();
+            Console.WriteLine("=== ДАННИ ЗА УЧЕНИК ===");
+            Console.WriteLine();
+
+            Console.WriteLine($"Id: {student.Id}");
+            Console.WriteLine($"Име: {student.Name}");
+            Console.WriteLine($"Възраст: {student.Age}");
+            Console.WriteLine($"Клас: {student.Grade}");
+            Console.WriteLine(
+                $"Среден успех: {student.AverageScore:F2}");
+            Console.WriteLine(
+                $"Такса: {student.Fee:F2} лв.");
+            Console.WriteLine(
+                $"Стипендия: {(student.HasScholarship ? "Да" : "Не")}");
+            Console.WriteLine($"Паралелка: {student.ClassLetter}");
+            Console.WriteLine(
+                $"Дата на раждане: {student.BirthDate:dd.MM.yyyy}");
+
+        }
+
+
+        static T ReadValue<T>(
         string prompt, Func<string, T> parser)
         {
             while (true)
